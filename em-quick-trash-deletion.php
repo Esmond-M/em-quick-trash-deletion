@@ -9,7 +9,7 @@
  * @wordpress-plugin
  * Plugin Name:       Quick trash deletion
  * Plugin URI:        https://esmondmccain.com/
- * Description:       This adds an 'empty trash' button to all post type tables. This allows you to empty the trash list without loading the entire list of posts.
+ * Description:       This plugin adds an 'empty trash' button to the trash page. A permanent delete button link will also be added in the view all posts edit screen. These features allows you to empty the trash list without loading the entire list of posts.
  * Version:           1.0.0
  * Author:            Esmond Mccain
  * Author URI:        https://esmondmccain.com/

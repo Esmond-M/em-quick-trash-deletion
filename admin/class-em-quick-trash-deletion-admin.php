@@ -61,16 +61,8 @@ class Em_Quick_Trash_Deletion_Admin {
 	 */
     public function enqueue_styles() {
 
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Em_Quick_Trash_Deletion_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Em_Quick_Trash_Deletion_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
+        /*
+         if edit page enqueue my styles
          */
         global $pagenow;
 
@@ -81,10 +73,33 @@ class Em_Quick_Trash_Deletion_Admin {
     }
 
     /**
+     * Display permanent delete button on row action links of post manage column edit screen
+     */
+    public function add_permanent_delete_row_action($actions, $post)
+    {
+        global $typenow;
+        $title  = _draft_or_post_title();
+        // Don't show if current user is not allowed to edit other's posts for this post type
+        if ( ! current_user_can( get_post_type_object( $typenow )->cap->edit_others_posts ) ) return;
+
+        if ($post->post_type=='post')
+        {
+            $actions['delete'] = sprintf(
+                '<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
+                get_delete_post_link( $post->ID, '', true ),
+                /* translators: %s: Post title. */
+                esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently' ), $title ) ),
+                __( 'Delete Permanently' )
+            );
+        }
+        return $actions;
+    }
+
+    /**
      * Display empty trash button on list tables
      * @return void
      */
-    public function add_button() {
+    public function add_empty_trash_button() {
         global $typenow, $pagenow;
 
         // Don't show on comments list table
@@ -106,28 +121,5 @@ class Em_Quick_Trash_Deletion_Admin {
         </div>
         <?php
     }
-
-	/**
-	 * Register the JavaScript for the admin area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Em_Quick_Trash_Deletion_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Em_Quick_Trash_Deletion_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/em-quick-trash-deletion-admin.js', array( 'jquery' ), $this->version, false );
-
-	}
 
 }
